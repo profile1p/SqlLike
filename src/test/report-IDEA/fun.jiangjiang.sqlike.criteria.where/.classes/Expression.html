@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Expression</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">fun.jiangjiang.sqlike.criteria.where</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Expression (fun.jiangjiang.sqlike.criteria.where)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Expression</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package fun.jiangjiang.sqlike.criteria.where;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * @author lingxiao.li
+<i>5</i>&nbsp; * @date 2020/9/6
+<i>6</i>&nbsp; */
+<i>7</i>&nbsp;public interface Expression {
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    static Expression of(Class&lt;?&gt; clz, String field) throws NoSuchFieldException {
+<b class="fc"><i>10</i>&nbsp;        return new FieldExpression(clz, field);</b>
+<i>11</i>&nbsp;    }
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    static Expression of(Object obj) {
+<b class="nc"><i>14</i>&nbsp;        return new ConstantExpression(obj);</b>
+<i>15</i>&nbsp;    }
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    Where isNull();
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    Where notNull();
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    Where equalsTo(Object obj);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    Where equalsTo(Expression expression);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    Where in(Object... objs);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    Where in(Iterable&lt;Object&gt; iterable);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    Where in(Expression... expressions);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    Where regexLike(String regex);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    Where gt(Comparable&lt;Object&gt; comparable);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    Where gt(Expression expression);
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    Where lt(Comparable&lt;Object&gt; comparable);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    Where lt(Expression expression);
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    Where gte(Comparable&lt;Object&gt; comparable);
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    Where gte(Expression expression);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    Where lte(Comparable&lt;Object&gt; comparable);
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    Where lte(Expression expression);
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    Object value(Object obj);
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    boolean isComparable();
+<i>52</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-09-06 14:45</div>
+</div>
+</body>
+</html>

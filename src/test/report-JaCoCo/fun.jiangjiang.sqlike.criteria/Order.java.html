@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Order.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria</a> &gt; <span class="el_source">Order.java</span></div><h1>Order.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
+import fun.jiangjiang.sqlike.criteria.Order.ByField;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/5
+ */
+public class Order implements Iterable&lt;ByField&gt; {
+
+    private final boolean nullFirst;
+    private final int nullCompareInt;
+    private final List&lt;ByField&gt; byFields;
+
+<span class="fc" id="L29">    Order(boolean nullFirst, ByField... byFields) {</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (ArrayUtils.isEmpty(byFields)) {</span>
+<span class="nc" id="L31">            throw new IllegalArgumentException(&quot;byFields must not be null!&quot;);</span>
+        }
+<span class="fc" id="L33">        this.nullFirst = nullFirst;</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        this.nullCompareInt = nullFirst ? 1 : -1;</span>
+<span class="fc" id="L35">        this.byFields = Arrays.asList(byFields);</span>
+<span class="fc" id="L36">    }</span>
+
+<span class="fc" id="L38">    Order(boolean nullFirst, Iterable&lt;ByField&gt; byFields) {</span>
+<span class="fc" id="L39">        this.nullFirst = nullFirst;</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        this.nullCompareInt = nullFirst ? 1 : -1;</span>
+<span class="fc" id="L41">        this.byFields = StreamSupport.stream(byFields.spliterator(), false).collect(Collectors.toUnmodifiableList());</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (CollectionUtils.isEmpty(this.byFields)) {</span>
+<span class="nc" id="L43">            throw new IllegalArgumentException(&quot;byFields must not be null!&quot;);</span>
+        }
+<span class="fc" id="L45">    }</span>
+
+    public static Order by(boolean nullFirst, ByField... byFields) {
+<span class="fc" id="L48">        return new Order(nullFirst, byFields);</span>
+    }
+
+    public static Order by(boolean nullFirst, Iterable&lt;ByField&gt; iterable) {
+<span class="fc" id="L52">        return new Order(nullFirst, iterable);</span>
+    }
+
+    public static Order by(boolean nullFirst, String... fields) {
+<span class="nc" id="L56">        return Order.by(nullFirst, Direction.ASC, fields);</span>
+    }
+
+    public static Order by(boolean nullFirst, Direction direction, String... fields) {
+<span class="fc" id="L60">        return Order.by(nullFirst, Stream.ofNullable(fields)</span>
+<span class="fc" id="L61">                .flatMap(Arrays::stream)</span>
+<span class="fc" id="L62">                .map(field -&gt; new ByField(field, direction))</span>
+<span class="fc" id="L63">                .collect(Collectors.toList()));</span>
+    }
+
+    public Order and(Order order) {
+<span class="fc" id="L67">        final ArrayList&lt;ByField&gt; list = new ArrayList&lt;&gt;(this.byFields);</span>
+<span class="fc" id="L68">        list.addAll(order.byFields);</span>
+<span class="fc" id="L69">        return Order.by(this.nullFirst, list);</span>
+    }
+
+    public Comparator&lt;Object&gt; render() {
+<span class="fc" id="L73">        return render(byFields.iterator());</span>
+    }
+
+    @SuppressWarnings({&quot;unchecked&quot;, &quot;rawtypes&quot;})
+    private Comparator&lt;Object&gt; render(Iterator&lt;ByField&gt; byFieldIterator) {
+<span class="fc" id="L78">        final ByField byField = byFieldIterator.next();</span>
+<span class="fc" id="L79">        final String fieldName = byField.field;</span>
+        Comparator&lt;Object&gt; comparator;
+<span class="fc" id="L81">        comparator = (o1, o2) -&gt; {</span>
+            // TODO: 缓存反射
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">            if (Objects.isNull(o1) || Objects.isNull(o2)) {</span>
+<span class="nc bnc" id="L84" title="All 4 branches missed.">                return Objects.isNull(o1) &amp;&amp; Objects.isNull(o2)</span>
+<span class="nc" id="L85">                        ? 0</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                        : Objects.isNull(o1) ? nullCompareInt : -nullCompareInt;</span>
+            }
+<span class="fc" id="L88">            final Class&lt;?&gt; clz = o1.getClass();</span>
+            try {
+<span class="fc" id="L90">                final Field field = clz.getDeclaredField(fieldName);</span>
+<span class="fc" id="L91">                field.setAccessible(true);</span>
+<span class="pc bpc" id="L92" title="4 of 8 branches missed.">                return field.get(o1) instanceof Comparable c1 &amp;&amp; field.get(o2) instanceof Comparable c2</span>
+<span class="pc" id="L93">                        ? c1.compareTo(c2) : 0;</span>
+<span class="nc" id="L94">            } catch (NoSuchFieldException | IllegalAccessException e) {</span>
+<span class="nc" id="L95">                throw new RuntimeException(e);</span>
+            }
+        };
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (byField.direction == Direction.DESC) {</span>
+<span class="fc" id="L99">            comparator = comparator.reversed();</span>
+        }
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (byFieldIterator.hasNext()) {</span>
+<span class="fc" id="L102">            comparator = comparator.thenComparing(render(byFieldIterator));</span>
+        }
+<span class="fc" id="L104">        return comparator;</span>
+    }
+
+    @Override
+    public Iterator&lt;ByField&gt; iterator() {
+<span class="nc" id="L109">        return byFields.iterator();</span>
+    }
+
+<span class="fc" id="L112">    public enum Direction {</span>
+<span class="fc" id="L113">        ASC, DESC</span>
+    }
+
+<span class="pc" id="L116">    public static record ByField(String field, Direction direction) {</span>
+        // empty block
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

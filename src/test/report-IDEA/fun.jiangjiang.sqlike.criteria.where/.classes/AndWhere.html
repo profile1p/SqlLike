@@ -1,0 +1,112 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AndWhere</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">fun.jiangjiang.sqlike.criteria.where</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AndWhere (fun.jiangjiang.sqlike.criteria.where)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AndWhere</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package fun.jiangjiang.sqlike.criteria.where;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Arrays;
+<i>4</i>&nbsp;import java.util.List;
+<i>5</i>&nbsp;import java.util.function.Predicate;
+<i>6</i>&nbsp;import java.util.stream.Collectors;
+<i>7</i>&nbsp;import java.util.stream.Stream;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * @author lingxiao.li
+<i>11</i>&nbsp; * @date 2020/9/6
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class AndWhere extends AbstractWhere implements Where {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private final List&lt;Where&gt; wheres;
+<i>16</i>&nbsp;
+<b class="fc"><i>17</i>&nbsp;    public AndWhere(Where... wheres) {</b>
+<b class="fc"><i>18</i>&nbsp;        this.wheres = Stream.ofNullable(wheres)</b>
+<b class="fc"><i>19</i>&nbsp;                .flatMap(Arrays::stream)</b>
+<b class="fc"><i>20</i>&nbsp;                .collect(Collectors.toUnmodifiableList());</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public Predicate&lt;Object&gt; render() {
+<b class="fc"><i>25</i>&nbsp;        return o -&gt; wheres.stream()</b>
+<b class="fc"><i>26</i>&nbsp;                .map(Where::render)</b>
+<b class="fc"><i>27</i>&nbsp;                .allMatch(predicate -&gt; predicate.test(o));</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-09-06 14:45</div>
+</div>
+</body>
+</html>

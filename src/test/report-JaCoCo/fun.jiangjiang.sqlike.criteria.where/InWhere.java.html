@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InWhere.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria.where</a> &gt; <span class="el_source">InWhere.java</span></div><h1>InWhere.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria.where;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public class InWhere extends AbstractWhere implements Where {
+
+    private final Expression sourceExpression;
+    private final List&lt;Expression&gt; expressions;
+
+<span class="nc" id="L20">    public InWhere(Expression sourceExpression, Object... objs) {</span>
+<span class="nc" id="L21">        this.sourceExpression = sourceExpression;</span>
+<span class="nc" id="L22">        expressions = Stream.ofNullable(Objects.requireNonNull(objs))</span>
+<span class="nc" id="L23">                .flatMap(Arrays::stream)</span>
+<span class="nc" id="L24">                .map(ConstantExpression::new)</span>
+<span class="nc" id="L25">                .collect(Collectors.toUnmodifiableList());</span>
+<span class="nc" id="L26">    }</span>
+
+<span class="nc" id="L28">    public InWhere(Expression sourceExpression, Iterable&lt;Object&gt; iterable) {</span>
+<span class="nc" id="L29">        this.sourceExpression = sourceExpression;</span>
+<span class="nc" id="L30">        expressions = StreamSupport.stream(iterable.spliterator(), false)</span>
+<span class="nc" id="L31">                .map(ConstantExpression::new)</span>
+<span class="nc" id="L32">                .collect(Collectors.toUnmodifiableList());</span>
+<span class="nc" id="L33">    }</span>
+
+<span class="nc" id="L35">    public InWhere(Expression sourceExpression, Expression... expressions) {</span>
+<span class="nc" id="L36">        this.sourceExpression = sourceExpression;</span>
+<span class="nc" id="L37">        this.expressions = Arrays.asList(expressions);</span>
+<span class="nc" id="L38">    }</span>
+
+    @Override
+    public Predicate&lt;Object&gt; render() {
+<span class="nc" id="L42">        return o -&gt; {</span>
+<span class="nc" id="L43">            final Object sourceValue = sourceExpression.value(o);</span>
+<span class="nc" id="L44">            return expressions.stream()</span>
+<span class="nc" id="L45">                    .map(exp -&gt; exp.value(o))</span>
+<span class="nc" id="L46">                    .anyMatch(obj -&gt; Objects.equals(sourceValue, obj));</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Group.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria</a> &gt; <span class="el_source">Group.java</span></div><h1>Group.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/5
+ */
+public class Group implements Iterable&lt;String&gt; {
+
+    private final List&lt;String&gt; fields;
+
+<span class="fc" id="L24">    Group(String... fields) {</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (ArrayUtils.isEmpty(fields)) {</span>
+<span class="nc" id="L26">            throw new IllegalArgumentException(&quot;fields must not be null!&quot;);</span>
+        }
+<span class="fc" id="L28">        this.fields = Arrays.asList(fields);</span>
+<span class="fc" id="L29">    }</span>
+
+<span class="nc" id="L31">    Group(Iterable&lt;String&gt; iterable) {</span>
+<span class="nc" id="L32">        this.fields = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toUnmodifiableList());</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (CollectionUtils.isEmpty(this.fields)) {</span>
+<span class="nc" id="L34">            throw new IllegalArgumentException(&quot;fields must not be null!&quot;);</span>
+        }
+<span class="nc" id="L36">    }</span>
+
+    public static Group by(String... fields) {
+<span class="fc" id="L39">        return new Group(fields);</span>
+    }
+
+    public static Group by(Iterable&lt;String&gt; iterable) {
+<span class="nc" id="L43">        return new Group(iterable);</span>
+    }
+
+    public Group and(Group group) {
+<span class="nc" id="L47">        final ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;(fields);</span>
+<span class="nc" id="L48">        list.addAll(group.fields);</span>
+<span class="nc" id="L49">        return Group.by(list);</span>
+    }
+
+    public Predicate&lt;Object&gt; render() {
+<span class="fc" id="L53">        return new Predicate&lt;&gt;() {</span>
+
+            private Object preObj;
+            private List&lt;Object&gt; preValues;
+
+            @Override
+            public boolean test(Object o) {
+<span class="fc" id="L60">                boolean keep = true;</span>
+<span class="fc" id="L61">                final Class&lt;?&gt; clz = o.getClass();</span>
+<span class="fc" id="L62">                final List&lt;Object&gt; values = fields.stream()</span>
+<span class="fc" id="L63">                        .map(name -&gt; {</span>
+                            try {
+<span class="fc" id="L65">                                final Field field = clz.getDeclaredField(name);</span>
+<span class="fc" id="L66">                                field.setAccessible(true);</span>
+<span class="fc" id="L67">                                return field.get(o);</span>
+<span class="nc" id="L68">                            } catch (NoSuchFieldException | IllegalAccessException e) {</span>
+<span class="nc" id="L69">                                throw new RuntimeException(e);</span>
+                            }
+                        })
+<span class="fc" id="L72">                        .collect(Collectors.toList());</span>
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">                if (Objects.nonNull(preObj) &amp;&amp; Objects.nonNull(preValues)) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                    keep = !preValues.equals(values);</span>
+                }
+<span class="fc" id="L76">                preObj = o;</span>
+<span class="fc" id="L77">                preValues = values;</span>
+<span class="fc" id="L78">                return keep;</span>
+            }
+        };
+    }
+
+    @Override
+    public Iterator&lt;String&gt; iterator() {
+<span class="nc" id="L85">        return fields.iterator();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConstantExpression.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria.where</a> &gt; <span class="el_source">ConstantExpression.java</span></div><h1>ConstantExpression.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria.where;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public class ConstantExpression extends AbstractExpression implements Expression {
+
+    private final Object constant;
+    private final boolean comparable;
+
+<span class="nc" id="L12">    ConstantExpression(Object constant) {</span>
+<span class="nc" id="L13">        this.constant = constant;</span>
+<span class="nc" id="L14">        comparable = constant instanceof Comparable;</span>
+<span class="nc" id="L15">    }</span>
+
+    @Override
+    public Object value(Object obj) {
+<span class="nc" id="L19">        return constant;</span>
+    }
+
+    @Override
+    public boolean isComparable() {
+<span class="nc" id="L24">        return comparable;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

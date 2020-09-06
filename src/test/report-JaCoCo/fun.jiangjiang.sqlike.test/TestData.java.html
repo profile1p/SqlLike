@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.test</a> &gt; <span class="el_source">TestData.java</span></div><h1>TestData.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.test;
+
+import java.time.LocalDateTime;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public class TestData {
+
+    private Long id;
+    private String name;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private Long num1;
+    private Long num2;
+
+<span class="fc" id="L18">    private TestData(Builder builder) {</span>
+<span class="fc" id="L19">        setId(builder.id);</span>
+<span class="fc" id="L20">        setName(builder.name);</span>
+<span class="fc" id="L21">        setStartTime(builder.startTime);</span>
+<span class="fc" id="L22">        setEndTime(builder.endTime);</span>
+<span class="fc" id="L23">        setNum1(builder.num1);</span>
+<span class="fc" id="L24">        setNum2(builder.num2);</span>
+<span class="fc" id="L25">    }</span>
+
+    public static Builder newBuilder() {
+<span class="fc" id="L28">        return new Builder();</span>
+    }
+
+    public static Builder newBuilder(TestData copy) {
+<span class="nc" id="L32">        Builder builder = new Builder();</span>
+<span class="nc" id="L33">        builder.id = copy.getId();</span>
+<span class="nc" id="L34">        builder.name = copy.getName();</span>
+<span class="nc" id="L35">        builder.startTime = copy.getStartTime();</span>
+<span class="nc" id="L36">        builder.endTime = copy.getEndTime();</span>
+<span class="nc" id="L37">        builder.num1 = copy.getNum1();</span>
+<span class="nc" id="L38">        builder.num2 = copy.getNum2();</span>
+<span class="nc" id="L39">        return builder;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L44">        return &quot;TestData{&quot; +</span>
+<span class="fc" id="L45">                &quot;id=&quot; + String.format(&quot;%1$-3s&quot;, id) +</span>
+<span class="fc" id="L46">                &quot;, name=&quot; + String.format(&quot;%1$-16s&quot;, '\'' + name + '\'') +</span>
+<span class="fc" id="L47">                &quot;, startTime=&quot; + String.format(&quot;%1$.23s&quot;, startTime)+</span>
+<span class="fc" id="L48">                &quot;, endTime=&quot; + String.format(&quot;%1$.23s&quot;, endTime)+</span>
+<span class="fc" id="L49">                &quot;, num1=&quot; + String.format(&quot;%1$-5s&quot;, num1)+</span>
+<span class="fc" id="L50">                &quot;, num2=&quot; + String.format(&quot;%1$-5s&quot;, num2)+</span>
+                '}';
+    }
+
+    public Long getId() {
+<span class="nc" id="L55">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L59">        this.id = id;</span>
+<span class="fc" id="L60">    }</span>
+
+    public String getName() {
+<span class="nc" id="L63">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L67">        this.name = name;</span>
+<span class="fc" id="L68">    }</span>
+
+    public LocalDateTime getStartTime() {
+<span class="nc" id="L71">        return startTime;</span>
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+<span class="fc" id="L75">        this.startTime = startTime;</span>
+<span class="fc" id="L76">    }</span>
+
+    public LocalDateTime getEndTime() {
+<span class="nc" id="L79">        return endTime;</span>
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+<span class="fc" id="L83">        this.endTime = endTime;</span>
+<span class="fc" id="L84">    }</span>
+
+    public Long getNum1() {
+<span class="nc" id="L87">        return num1;</span>
+    }
+
+    public void setNum1(Long num1) {
+<span class="fc" id="L91">        this.num1 = num1;</span>
+<span class="fc" id="L92">    }</span>
+
+    public Long getNum2() {
+<span class="nc" id="L95">        return num2;</span>
+    }
+
+    public void setNum2(Long num2) {
+<span class="fc" id="L99">        this.num2 = num2;</span>
+<span class="fc" id="L100">    }</span>
+
+    public static final class Builder {
+
+        private Long id;
+        private String name;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
+        private Long num1;
+        private Long num2;
+
+        private Builder() {
+        }
+
+        public Builder id(Long id) {
+<span class="fc" id="L115">            this.id = id;</span>
+<span class="fc" id="L116">            return this;</span>
+        }
+
+        public Builder name(String name) {
+<span class="fc" id="L120">            this.name = name;</span>
+<span class="fc" id="L121">            return this;</span>
+        }
+
+        public Builder startTime(LocalDateTime startTime) {
+<span class="fc" id="L125">            this.startTime = startTime;</span>
+<span class="fc" id="L126">            return this;</span>
+        }
+
+        public Builder endTime(LocalDateTime endTime) {
+<span class="fc" id="L130">            this.endTime = endTime;</span>
+<span class="fc" id="L131">            return this;</span>
+        }
+
+        public Builder num1(Long num1) {
+<span class="fc" id="L135">            this.num1 = num1;</span>
+<span class="fc" id="L136">            return this;</span>
+        }
+
+        public Builder num2(Long num2) {
+<span class="fc" id="L140">            this.num2 = num2;</span>
+<span class="fc" id="L141">            return this;</span>
+        }
+
+        public TestData build() {
+<span class="fc" id="L145">            return new TestData(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

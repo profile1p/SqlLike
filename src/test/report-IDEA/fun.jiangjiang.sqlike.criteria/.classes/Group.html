@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Group</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">fun.jiangjiang.sqlike.criteria</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Group (fun.jiangjiang.sqlike.criteria)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Group</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (3/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (5/ 15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Group$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (14/ 16)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.3%
+  </span>
+  <span class="absValue">
+    (19/ 31)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package fun.jiangjiang.sqlike.criteria;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.lang.reflect.Field;
+<i>4</i>&nbsp;import java.util.ArrayList;
+<i>5</i>&nbsp;import java.util.Arrays;
+<i>6</i>&nbsp;import java.util.Iterator;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;import java.util.Objects;
+<i>9</i>&nbsp;import java.util.function.Predicate;
+<i>10</i>&nbsp;import java.util.stream.Collectors;
+<i>11</i>&nbsp;import java.util.stream.StreamSupport;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import org.apache.commons.collections4.CollectionUtils;
+<i>14</i>&nbsp;import org.apache.commons.lang3.ArrayUtils;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * @author lingxiao.li
+<i>18</i>&nbsp; * @date 2020/9/5
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public class Group implements Iterable&lt;String&gt; {
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    private final List&lt;String&gt; fields;
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;    Group(String... fields) {</b>
+<b class="pc"><i>25</i>&nbsp;        if (ArrayUtils.isEmpty(fields)) {</b>
+<b class="nc"><i>26</i>&nbsp;            throw new IllegalArgumentException(&quot;fields must not be null!&quot;);</b>
+<i>27</i>&nbsp;        }
+<b class="fc"><i>28</i>&nbsp;        this.fields = Arrays.asList(fields);</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;    Group(Iterable&lt;String&gt; iterable) {</b>
+<b class="nc"><i>32</i>&nbsp;        this.fields = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toUnmodifiableList());</b>
+<b class="nc"><i>33</i>&nbsp;        if (CollectionUtils.isEmpty(this.fields)) {</b>
+<b class="nc"><i>34</i>&nbsp;            throw new IllegalArgumentException(&quot;fields must not be null!&quot;);</b>
+<i>35</i>&nbsp;        }
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public static Group by(String... fields) {
+<b class="fc"><i>39</i>&nbsp;        return new Group(fields);</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public static Group by(Iterable&lt;String&gt; iterable) {
+<b class="nc"><i>43</i>&nbsp;        return new Group(iterable);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public Group and(Group group) {
+<b class="nc"><i>47</i>&nbsp;        final ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;(fields);</b>
+<b class="nc"><i>48</i>&nbsp;        list.addAll(group.fields);</b>
+<b class="nc"><i>49</i>&nbsp;        return Group.by(list);</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public Predicate&lt;Object&gt; render() {
+<b class="fc"><i>53</i>&nbsp;        return new Predicate&lt;&gt;() {</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;            private Object preObj;
+<i>56</i>&nbsp;            private List&lt;Object&gt; preValues;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;            @Override
+<i>59</i>&nbsp;            public boolean test(Object o) {
+<b class="fc"><i>60</i>&nbsp;                boolean keep = true;</b>
+<b class="fc"><i>61</i>&nbsp;                final Class&lt;?&gt; clz = o.getClass();</b>
+<b class="fc"><i>62</i>&nbsp;                final List&lt;Object&gt; values = fields.stream()</b>
+<b class="fc"><i>63</i>&nbsp;                        .map(name -&gt; {</b>
+<i>64</i>&nbsp;                            try {
+<b class="fc"><i>65</i>&nbsp;                                final Field field = clz.getDeclaredField(name);</b>
+<b class="fc"><i>66</i>&nbsp;                                field.setAccessible(true);</b>
+<b class="fc"><i>67</i>&nbsp;                                return field.get(o);</b>
+<b class="nc"><i>68</i>&nbsp;                            } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>69</i>&nbsp;                                throw new RuntimeException(e);</b>
+<i>70</i>&nbsp;                            }
+<i>71</i>&nbsp;                        })
+<b class="fc"><i>72</i>&nbsp;                        .collect(Collectors.toList());</b>
+<b class="pc"><i>73</i>&nbsp;                if (Objects.nonNull(preObj) &amp;&amp; Objects.nonNull(preValues)) {</b>
+<b class="fc"><i>74</i>&nbsp;                    keep = !preValues.equals(values);</b>
+<i>75</i>&nbsp;                }
+<b class="fc"><i>76</i>&nbsp;                preObj = o;</b>
+<b class="fc"><i>77</i>&nbsp;                preValues = values;</b>
+<b class="fc"><i>78</i>&nbsp;                return keep;</b>
+<i>79</i>&nbsp;            }
+<i>80</i>&nbsp;        };
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    @Override
+<i>84</i>&nbsp;    public Iterator&lt;String&gt; iterator() {
+<b class="nc"><i>85</i>&nbsp;        return fields.iterator();</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-09-06 14:45</div>
+</div>
+</body>
+</html>

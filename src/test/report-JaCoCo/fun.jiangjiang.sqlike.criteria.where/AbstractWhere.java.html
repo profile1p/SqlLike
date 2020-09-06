@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractWhere.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria.where</a> &gt; <span class="el_source">AbstractWhere.java</span></div><h1>AbstractWhere.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria.where;
+
+import java.util.Objects;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public abstract class AbstractWhere implements Where {
+
+<span class="fc" id="L11">    AbstractWhere() {</span>
+<span class="fc" id="L12">    }</span>
+
+    @Override
+    public boolean isNegated() {
+<span class="nc" id="L16">        return false;</span>
+    }
+
+    @Override
+    public Where not() {
+<span class="nc" id="L21">        return new NegatedWhere(this);</span>
+    }
+
+    @Override
+    public Where and(Where... wheres) {
+<span class="fc" id="L26">        final int oldLength = Objects.requireNonNull(wheres).length;</span>
+<span class="fc" id="L27">        final Where[] allWheres = new Where[oldLength + 1];</span>
+<span class="fc" id="L28">        allWheres[0] = this;</span>
+<span class="fc" id="L29">        System.arraycopy(wheres, 0, allWheres, 1, oldLength);</span>
+<span class="fc" id="L30">        return new AndWhere(allWheres);</span>
+    }
+
+    @Override
+    public Where or(Where... wheres) {
+<span class="nc" id="L35">        final int length = Objects.requireNonNull(wheres).length + 1;</span>
+<span class="nc" id="L36">        final Where[] allWheres = new Where[length];</span>
+<span class="nc" id="L37">        allWheres[0] = this;</span>
+<span class="nc" id="L38">        System.arraycopy(wheres, 0, allWheres, 1, length);</span>
+<span class="nc" id="L39">        return new OrWhere(allWheres);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

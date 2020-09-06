@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractExpression.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria.where</a> &gt; <span class="el_source">AbstractExpression.java</span></div><h1>AbstractExpression.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria.where;
+
+import fun.jiangjiang.sqlike.criteria.where.ComparisonWhere.ComparisonOperator;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public abstract class AbstractExpression implements Expression {
+
+<span class="fc" id="L11">    AbstractExpression() {</span>
+<span class="fc" id="L12">    }</span>
+
+    @Override
+    public Where isNull() {
+<span class="nc" id="L16">        return new IsNullWhere(this);</span>
+    }
+
+    @Override
+    public Where notNull() {
+<span class="nc" id="L21">        return new IsNullWhere(this).not();</span>
+    }
+
+    @Override
+    public Where equalsTo(Object obj) {
+<span class="nc" id="L26">        return equalsTo(new ConstantExpression(obj));</span>
+    }
+
+    @Override
+    public Where equalsTo(Expression expression) {
+<span class="nc" id="L31">        return new ComparisonWhere(ComparisonOperator.EQUAL, this, expression);</span>
+    }
+
+    @Override
+    public Where in(Object... objs) {
+<span class="nc" id="L36">        return new InWhere(this, objs);</span>
+    }
+
+    @Override
+    public Where in(Iterable&lt;Object&gt; iterable) {
+<span class="nc" id="L41">        return new InWhere(this, iterable);</span>
+    }
+
+    @Override
+    public Where in(Expression... expressions) {
+<span class="nc" id="L46">        return new InWhere(this, expressions);</span>
+    }
+
+    @Override
+    public Where regexLike(String regex) {
+<span class="fc" id="L51">        return new LikeWhere(this, regex);</span>
+    }
+
+    @Override
+    public Where gt(Comparable&lt;Object&gt; comparable) {
+<span class="nc" id="L56">        return gt(new ConstantExpression(comparable));</span>
+    }
+
+    @Override
+    public Where gt(Expression expression) {
+<span class="nc" id="L61">        return new ComparisonWhere(ComparisonOperator.GREATER_THAN, this, expression);</span>
+    }
+
+    @Override
+    public Where lt(Comparable&lt;Object&gt; comparable) {
+<span class="nc" id="L66">        return lt(new ConstantExpression(comparable));</span>
+    }
+
+    @Override
+    public Where lt(Expression expression) {
+<span class="nc" id="L71">        return new ComparisonWhere(ComparisonOperator.LESS_THAN, this, expression);</span>
+    }
+
+    @Override
+    public Where gte(Comparable&lt;Object&gt; comparable) {
+<span class="nc" id="L76">        return gte(new ConstantExpression(comparable));</span>
+    }
+
+    @Override
+    public Where gte(Expression expression) {
+<span class="nc" id="L81">        return new ComparisonWhere(ComparisonOperator.GREATER_THAN_OR_EQUAL, this, expression);</span>
+    }
+
+    @Override
+    public Where lte(Comparable&lt;Object&gt; comparable) {
+<span class="nc" id="L86">        return lte(new ConstantExpression(comparable));</span>
+    }
+
+    @Override
+    public Where lte(Expression expression) {
+<span class="fc" id="L91">        return new ComparisonWhere(ComparisonOperator.LESS_THAN_OR_EQUAL, this, expression);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

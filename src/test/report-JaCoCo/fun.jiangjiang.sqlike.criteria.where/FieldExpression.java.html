@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FieldExpression.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria.where</a> &gt; <span class="el_source">FieldExpression.java</span></div><h1>FieldExpression.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria.where;
+
+import java.lang.reflect.Field;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public class FieldExpression extends AbstractExpression implements Expression {
+
+    private final Class&lt;?&gt; clz;
+    private final String fieldName;
+    private final Field field;
+    private final boolean comparable;
+
+<span class="fc" id="L16">    FieldExpression(Class&lt;?&gt; clz, String fieldName) throws NoSuchFieldException {</span>
+<span class="fc" id="L17">        this.clz = clz;</span>
+<span class="fc" id="L18">        this.fieldName = fieldName;</span>
+<span class="fc" id="L19">        field = clz.getDeclaredField(fieldName);</span>
+<span class="fc" id="L20">        field.setAccessible(true);</span>
+<span class="fc" id="L21">        comparable = Comparable.class.isAssignableFrom(field.getDeclaringClass());</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public Object value(Object obj) {
+        try {
+<span class="fc" id="L27">            return field.get(obj);</span>
+<span class="nc" id="L28">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L29">            throw new RuntimeException(e);</span>
+        }
+    }
+
+    @Override
+    public boolean isComparable() {
+<span class="nc" id="L35">        return comparable;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

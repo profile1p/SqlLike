@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrWhere.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sql_like$Tester_testFormal.exec</a> &gt; <a href="index.source.html" class="el_package">fun.jiangjiang.sqlike.criteria.where</a> &gt; <span class="el_source">OrWhere.java</span></div><h1>OrWhere.java</h1><pre class="source lang-java linenums">package fun.jiangjiang.sqlike.criteria.where;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * @author lingxiao.li
+ * @date 2020/9/6
+ */
+public class OrWhere extends AbstractWhere implements Where {
+
+    private final List&lt;Where&gt; wheres;
+
+<span class="nc" id="L17">    public OrWhere(Where... wheres) {</span>
+<span class="nc" id="L18">        this.wheres = Stream.ofNullable(wheres)</span>
+<span class="nc" id="L19">                .flatMap(Arrays::stream)</span>
+<span class="nc" id="L20">                .collect(Collectors.toUnmodifiableList());</span>
+<span class="nc" id="L21">    }</span>
+
+    @Override
+    public Predicate&lt;Object&gt; render() {
+<span class="nc" id="L25">        return o -&gt; wheres.stream()</span>
+<span class="nc" id="L26">                .map(Where::render)</span>
+<span class="nc" id="L27">                .anyMatch(predicate -&gt; predicate.test(o));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
